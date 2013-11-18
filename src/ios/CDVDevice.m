@@ -22,6 +22,9 @@
 
 #import <Cordova/CDV.h>
 #import "CDVDevice.h"
+#import <XFace/XUtils.h>
+#import <XFace/XUtils+Additions.h>
+#import <XFace/XConstants.h>
 
 @implementation UIDevice (ModelVersion)
 
@@ -78,8 +81,23 @@
     [devProps setObject:[device uniqueAppInstanceIdentifier] forKey:@"uuid"];
     [devProps setObject:[[self class] cordovaVersion] forKey:@"cordova"];
 
+    [devProps setObject:[XUtils getPreferenceForKey:ENGINE_VERSION] forKey:@"xFaceVersion"];
+    [devProps setObject:[self productVersion] forKey:@"productVersion"];
+
+    //js device.name 的值形如  @“iPad Touch”;/@“iPhone“/;...
+    [devProps setObject:[[UIDevice currentDevice] model] forKey:@"name"];
+
+    CGRect screenRect = [[UIScreen mainScreen] bounds];
+    [devProps setObject:@(screenRect.size.width) forKey:@"width"];
+    [devProps setObject:@(screenRect.size.height) forKey:@"height"];
+
     NSDictionary* devReturn = [NSDictionary dictionaryWithDictionary:devProps];
     return devReturn;
+}
+
+- (NSString*) productVersion
+{
+    return [[NSBundle mainBundle] objectForInfoDictionaryKey:@"CFBundleShortVersionString"];//get product version
 }
 
 + (NSString*)cordovaVersion

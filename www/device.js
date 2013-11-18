@@ -52,6 +52,11 @@ function Device() {
             me.uuid = info.uuid;
             me.cordova = buildLabel;
             me.model = info.model;
+            me.name = info.name;
+            me.xFaceVersion = info.xFaceVersion;
+            me.productVersion = info.productVersion;
+            me.width = info.width;
+            me.height = info.height;
             channel.onCordovaInfoReady.fire();
         },function(e) {
             me.available = false;
