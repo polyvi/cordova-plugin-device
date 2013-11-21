@@ -29,14 +29,21 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import com.polyvi.xface.core.XConfiguration;
+import com.polyvi.xface.util.XLog;
+
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
+import android.content.pm.PackageInfo;
+import android.content.pm.PackageManager.NameNotFoundException;
 import android.provider.Settings;
 import android.telephony.TelephonyManager;
+import android.util.DisplayMetrics;
 
 public class Device extends CordovaPlugin {
+    private static final String CLASS_NAME = Device.class.getSimpleName();
     public static final String TAG = "Device";
 
     public static String cordovaVersion = "dev";              // Cordova version
@@ -75,12 +82,22 @@ public class Device extends CordovaPlugin {
     public boolean execute(String action, JSONArray args, CallbackContext callbackContext) throws JSONException {
         if (action.equals("getDeviceInfo")) {
             JSONObject r = new JSONObject();
-            r.put("uuid", Device.uuid);
-            r.put("version", this.getOSVersion());
-            r.put("platform", Device.platform);
-            r.put("cordova", Device.cordovaVersion);
-            r.put("model", this.getModel());
-            callbackContext.success(r);
+            try {
+                r.put("uuid", Device.uuid);
+                r.put("version", this.getOSVersion());
+                r.put("platform", Device.platform);
+                r.put("cordova", Device.cordovaVersion);
+                r.put("model", this.getModel());
+                r.put("name", android.os.Build.PRODUCT);
+                r.put("xFaceVersion", XConfiguration.getInstance().readEngineVersion());
+                PackageInfo info = this.cordova.getActivity().getPackageManager().getPackageInfo(this.cordova.getActivity().getPackageName(), 0);
+                r.put("productVersion", info.versionName);
+                r.put("width", getWidthPixels(this.cordova.getActivity()));
+                r.put("height", getHeightPixels(this.cordova.getActivity()));
+                callbackContext.success(r);
+            } catch (NameNotFoundException e) {
+                XLog.e(CLASS_NAME, e.getMessage(), e);
+            }
         }
         else {
             return false;
@@ -197,4 +214,33 @@ public class Device extends CordovaPlugin {
         return (tz.getID());
     }
 
+    /**
+     * Get Device DisplayMetrics
+     *
+     * @param context
+     * @return
+     */
+    private DisplayMetrics getDisplayMetrics(Context context) {
+        return context.getApplicationContext().getResources().getDisplayMetrics();
+    }
+
+    /**
+     * Get Device Screen Width
+     *
+     * @param context
+     * @return
+     */
+    private int getWidthPixels(Context context) {
+        return getDisplayMetrics(context).widthPixels;
+    }
+
+    /**
+     * Get Device Screen Height
+     *
+     * @param context
+     * @return
+     */
+    private int getHeightPixels(Context context) {
+        return getDisplayMetrics(context).heightPixels;
+    }
 }
