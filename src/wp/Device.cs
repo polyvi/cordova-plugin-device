@@ -27,6 +27,9 @@ using System.IO.IsolatedStorage;
 using System.Windows.Resources;
 using System.IO;
 using System.Diagnostics;
+using System.Xml.Linq;
+using xFaceLib.runtime;
+using xFaceLib.Util;
 
 namespace WPCordovaClassLib.Cordova.Commands
 {
@@ -34,20 +37,23 @@ namespace WPCordovaClassLib.Cordova.Commands
     {
         public void getDeviceInfo(string notused)
         {
-
-            string res = String.Format("\"name\":\"{0}\",\"cordova\":\"{1}\",\"platform\":\"{2}\",\"uuid\":\"{3}\",\"version\":\"{4}\",\"model\":\"{5}\"",
+            Deployment.Current.Dispatcher.BeginInvoke(() =>
+            {
+                string res = String.Format("\"name\":\"{0}\",\"cordova\":\"{1}\",\"platform\":\"{2}\",\"uuid\":\"{3}\",\"version\":\"{4}\",\"model\":\"{5}\",\"xFaceVersion\":\"{6}\",\"productVersion\":\"{7}\",\"width\":{8},\"height\":{9}",
                                         this.name,
                                         this.cordova,
                                         this.platform,
                                         this.uuid,
                                         this.version,
-                                        this.model);
-
-
-
-            res = "{" + res + "}";
-            //Debug.WriteLine("Result::" + res);
-            DispatchCommandResult(new PluginResult(PluginResult.Status.OK, res));
+                                        this.model,
+                                        this.xFaceVersion,
+                                        this.productVersion,
+                                        this.width,
+                                        this.height);
+                res = "{" + res + "}";
+                //Debug.WriteLine("Result::" + res);
+                DispatchCommandResult(new PluginResult(PluginResult.Status.OK, res));
+            });
         }
 
         public string model
@@ -131,5 +137,63 @@ namespace WPCordovaClassLib.Cordova.Commands
             }
         }
 
+        public string xFaceVersion
+        {
+            get
+            {
+                string version = XSystemConfiguration.GetInstance().XFaceVersion;
+                return version;
+            }
+        }
+
+        public string productVersion
+        {
+            get
+            {
+                //string version = XDocument.Load("WMAppManifest.xml").Root.Element("App").Attribute("Version").Value;
+                //return version;
+                return "3.0.0";
+            }
+        }
+
+        public double width
+        {
+            get
+            {
+                switch (XResolutionHelper.CurrentResolution)
+                {
+                    case Resolutions.HD720p:
+                        return 720.0;
+                    case Resolutions.WVGA:
+                        return 480.0;
+                    case Resolutions.WXGA:
+                        return 768.0;
+                    case Resolutions.HD1080p:
+                        return 1080.0;
+                    default:
+                        throw new InvalidOperationException("Unknown resolution type");
+                }
+            }
+        }
+
+        public double height
+        {
+            get
+            {
+                switch (XResolutionHelper.CurrentResolution)
+                {
+                    case Resolutions.HD720p:
+                        return 1280.0;
+                    case Resolutions.WVGA:
+                        return 800.0;
+                    case Resolutions.WXGA:
+                        return 1280.0;
+                    case Resolutions.HD1080p:
+                        return 1920.0;
+                    default:
+                        throw new InvalidOperationException("Unknown resolution type");
+                }
+            }
+        }
     }
 }
