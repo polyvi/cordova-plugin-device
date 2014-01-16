@@ -42,7 +42,6 @@ public class Device extends CordovaPlugin {
     public static final String TAG = "Device";
 
     public static String cordovaVersion = "dev";              // Cordova version
-    public static String platform;                            // Device OS
     public static String uuid;                                // Device UUID
 
     private static final String ANDROID_PLATFORM = "Android";
@@ -81,7 +80,7 @@ public class Device extends CordovaPlugin {
             try {
                 r.put("uuid", Device.uuid);
                 r.put("version", this.getOSVersion());
-                r.put("platform", Device.platform);
+                r.put("platform", getPlatform());
                 r.put("cordova", Device.cordovaVersion);
                 r.put("model", this.getModel());
                 r.put("name", android.os.Build.PRODUCT);
@@ -107,7 +106,7 @@ public class Device extends CordovaPlugin {
 
     /**
      * Get the OS name.
-     * 
+     *
      * @return
      */
     public String getPlatform() {
@@ -201,7 +200,7 @@ public class Device extends CordovaPlugin {
     }
     /**
      * Function to check if the device is manufactured by Amazon
-     * 
+     *
      * @return
      */
     public boolean isAmazonDevice() {
