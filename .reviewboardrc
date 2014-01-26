@@ -1,4 +1,4 @@
-REPOSITORY = 'git@git.polyvi.com:cordova-plugin-device.git'
+REPOSITORY = 'git@gitlab.polyvi.com:xface/cordova-plugin-device.git'
 REVIEWBOARD_URL = 'http://review.polyvi.com/reviews/'
 GUESS_FIELDS = 'true'
 TARGET_GROUPS = 'xFaceApolloCCGroup'
