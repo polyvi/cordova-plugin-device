@@ -47,3 +47,15 @@
  *  [CB-4915] Incremented plugin version on dev branch.
  *  batch modify .reviewboard
  *  fix the Device plugin bug:the Platform of property is not show
+
+
+## 0.2.8 (Fri Feb 28 2014)
+
+
+ *  add test
+ *  CB-5980 Updated version and RELEASENOTES.md for release 0.2.8
+ *  src/tizen: Adding DeviceProxy.
+ *  plugin.xml: Adding platform tizen.
+ *  supported platforms updated
+ *  Delete stale test/ directory
+ *   Incremented plugin version on dev branch.
