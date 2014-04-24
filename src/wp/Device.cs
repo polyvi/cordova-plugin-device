@@ -39,9 +39,8 @@ namespace WPCordovaClassLib.Cordova.Commands
         {
             Deployment.Current.Dispatcher.BeginInvoke(() =>
             {
-                string res = String.Format("\"name\":\"{0}\",\"cordova\":\"{1}\",\"platform\":\"{2}\",\"uuid\":\"{3}\",\"version\":\"{4}\",\"model\":\"{5}\",\"xFaceVersion\":\"{6}\",\"productVersion\":\"{7}\",\"width\":{8},\"height\":{9}",
+            string res = String.Format("\"name\":\"{0}\",\"cordova\":\"{1}\",\"platform\":\"{2}\",\"uuid\":\"{3}\",\"version\":\"{4}\",\"model\":\"{5}\"",
                                         this.name,
-                                        this.cordova,
                                         this.platform,
                                         this.uuid,
                                         this.version,
@@ -71,15 +70,6 @@ namespace WPCordovaClassLib.Cordova.Commands
             {
                 return DeviceStatus.DeviceName;
                 
-            }
-        }
-
-        public string cordova
-        {
-            get
-            {
-                // TODO: should be able to dynamically read the Cordova version from somewhere...
-                return "3.0.0";
             }
         }
 

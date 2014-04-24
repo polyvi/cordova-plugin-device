@@ -41,7 +41,6 @@ public class Device extends CordovaPlugin {
     private static final String CLASS_NAME = Device.class.getSimpleName();
     public static final String TAG = "Device";
 
-    public static String cordovaVersion = "dev";              // Cordova version
     public static String uuid;                                // Device UUID
 
     private static final String ANDROID_PLATFORM = "Android";
@@ -81,7 +80,6 @@ public class Device extends CordovaPlugin {
                 r.put("uuid", Device.uuid);
                 r.put("version", this.getOSVersion());
                 r.put("platform", getPlatform());
-                r.put("cordova", Device.cordovaVersion);
                 r.put("model", this.getModel());
                 r.put("name", android.os.Build.PRODUCT);
                 r.put("xFaceVersion", XConfiguration.getInstance().readEngineVersion());
@@ -127,15 +125,6 @@ public class Device extends CordovaPlugin {
     public String getUuid() {
         String uuid = Settings.Secure.getString(this.cordova.getActivity().getContentResolver(), android.provider.Settings.Secure.ANDROID_ID);
         return uuid;
-    }
-
-    /**
-     * Get the Cordova version.
-     *
-     * @return
-     */
-    public String getCordovaVersion() {
-        return Device.cordovaVersion;
     }
 
     public String getModel() {
