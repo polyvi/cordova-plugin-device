@@ -59,3 +59,15 @@
  *  supported platforms updated
  *  Delete stale test/ directory
  *   Incremented plugin version on dev branch.
+
+
+## 0.2.9 (Tue Apr 29 2014)
+
+
+ *  CB-6452 Updated version and RELEASENOTES.md for release 0.2.9
+ *  CB-6460: Update license headers
+ *  CB-6422 [windows8] use cordova/exec/proxy
+ *  CB-5105 Removed dead code for device.version
+ *  Add NOTICE file
+ *  CB-5980 Incremented plugin version on dev branch.
+ *  Incremented plugin version on dev branch to 0.2.9-dev
